@@ -51,12 +51,15 @@ int main(int argc, char *argv[]) {
         dist[j][0] = j;
     }
 
+    //start looping
     for (j=1;j<=l1;j++) {
         for(i=1;i<=l2;i++) {
+
+            //calculate cost
             if(s1[i-1] == s2[j-1]) {
-            track= 0;
+                track= 0;
             } else {
-            track = 1;
+                track = 1;
             }
             t = MIN((dist[i-1][j]+1),(dist[i][j-1]+1));
             dist[i][j] = MIN(t,(dist[i-1][j-1]+track));
