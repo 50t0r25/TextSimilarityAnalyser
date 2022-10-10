@@ -21,38 +21,15 @@ string fileToString(const string &fileName) {
     return string(&bytes[0], fileSize);
 }
 
-//calculates Levenshtein Distance between 2 strings and returns the number of edits requires
-unsigned int edit_distance(const std::string& s1, const std::string& s2)
-{
-    //get sizes and puts them initializes matrix
-	const std::size_t len1 = s1.size(), len2 = s2.size();
-	std::vector<std::vector<unsigned int>> d(len1 + 1, std::vector<unsigned int>(len2 + 1));
-
-    //fill matrix
-	d[0][0] = 0;
-	for(unsigned int i = 1; i <= len1; ++i) d[i][0] = i;
-	for(unsigned int i = 1; i <= len2; ++i) d[0][i] = i;
-
-    //calculate cost
-	for(unsigned int i = 1; i <= len1; ++i)
-		for(unsigned int j = 1; j <= len2; ++j)
-                      d[i][j] = std::min(std::min(d[i - 1][j] + 1, d[i][j - 1] + 1), d[i - 1][j - 1] + (s1[i - 1] == s2[j - 1] ? 0 : 1));
-	
-    return d[len1][len2]; //edit cost
-}
-
 
 int main(int argc, char *argv[]) {
 
     int i,j,l1,l2,t,track;
 
-    string f1, f2, s1 ,s2;
+    string f1 = argv[1], f2 = argv[2], s1 ,s2;
 
     //read files and dump content to s1 and s2
     try {
-        f1 = argv[1];
-        f2 = argv[2];
-
         s1 = fileToString(f1);
         s2 = fileToString(f2);
     } catch(...) {
@@ -60,11 +37,41 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
+    //stores the lenght of strings s1 and s2
+    l1 = s1.length();
+    l2= s2.length();
+
+    int dist[l1+l2][l1+l2];
+
+    //initialize arrays
+    for(i=0;i<=l1;i++) {
+        dist[0][i] = i;
+    }
+    for(j=0;j<=l2;j++) {
+        dist[j][0] = j;
+    }
+
+    //start looping
+    for (j=1;j<=l1;j++) {
+        for(i=1;i<=l2;i++) {
+
+            //calculate cost
+            if(s1[i-1] == s2[j-1]) {
+                track= 0;
+            } else {
+                track = 1;
+            }
+            t = MIN((dist[i-1][j]+1),(dist[i][j-1]+1));
+            dist[i][j] = MIN(t,(dist[i-1][j-1]+track));
+        }
+    }
+
     //number of edits required AKA Levenshtein Distance
-    int edits = edit_distance(s1,s2);
+    int edits = dist[l2][l1];
 
     //percentage from Levenshtein Distance
     float s_percentage = 100.0 - ((static_cast< float >(edits))/static_cast< float >(MAX(l1,l2)-1))*100;
+    if (s_percentage<0) s_percentage = 0;
 
     cout << setprecision (2) << fixed << "Similarity is: " << s_percentage << "%\n";
 
