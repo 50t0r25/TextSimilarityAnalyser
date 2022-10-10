@@ -25,3 +25,11 @@ chmod +x TSA
 Example: `./TSA text1.txt text2.txt`
 
 # Build instructions
+###### Requires GCC
+```
+git clone https://github.com/50t0r25/TextSimilarityAnalyser.git
+
+cd TextSimilarityAnalyser/
+
+make TSA
+```
