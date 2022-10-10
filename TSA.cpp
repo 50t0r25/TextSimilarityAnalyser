@@ -2,7 +2,6 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <math.h>
 #include <string.h>
 
 using namespace std;
@@ -27,11 +26,16 @@ int main(int argc, char *argv[]) {
 
     int i,j,l1,l2,t,track;
 
-    //read files and dump content to s1 and s2
     string f1 = argv[1], f2 = argv[2], s1 ,s2;
-    
-    s1 = fileToString(f1);
-    s2 = fileToString(f2);
+
+    //read files and dump content to s1 and s2
+    try {
+        s1 = fileToString(f1);
+        s2 = fileToString(f2);
+    } catch(...) {
+        cout << "File not found, please retry.\n";
+        return 0;
+    }
 
     //stores the lenght of strings s1 and s2
     l1 = s1.length();
