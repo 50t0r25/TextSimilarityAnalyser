@@ -15,6 +15,7 @@ tar -xzvf TSA-v1-linux.tar.gz
 rm TSA-v1-linux.tar.gz
 
 chmod +x TSA
+
 ```
 
 # Running
@@ -32,4 +33,5 @@ git clone https://github.com/50t0r25/TextSimilarityAnalyser.git
 cd TextSimilarityAnalyser/
 
 make TSA
+
 ```
