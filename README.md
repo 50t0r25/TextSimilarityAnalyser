@@ -4,6 +4,8 @@ C++ command line app for calculating the similarity percentage between 2 text fi
 
 ###### I only provide support and builds for Linux
 
+**NOTE**: using big text files will result in segmentation fault, to be fixed...
+
 # Downloading
 ```
 cd ~/Downloads
