@@ -12,6 +12,8 @@ wget https://github.com/50t0r25/TextSimilarityAnalyser/releases/download/v1/TSA-
 
 tar -xzvf TSA-v1-linux.tar.gz
 
+rm TSA-v1-linux.tar.gz
+
 chmod +x TSA
 ```
 
