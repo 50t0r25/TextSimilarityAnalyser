@@ -25,6 +25,7 @@ string fileToString(const char* fileName) {
     return str;
 }
 
+//makes string into lowercase
 string toLowerCase(string str) {
     for (int x=0; x < str.length(); x++)
         str[x] = tolower(str[x]);
@@ -50,7 +51,7 @@ int main(int argc, char *argv[]) {
     l1 = s1.length();
     l2 = s2.length();
 
-    std::vector<std::vector<int>> dist(l2+1,std::vector<int>(l1+1,0));
+    vector<vector<int>> dist(l2+1,vector<int>(l1+1,0));
 
     //initialize arrays
     for(i=0;i<=l1;i++) {
