@@ -1,15 +1,17 @@
 #include <iomanip>
+#include <cstring>
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <string.h>
 
-using namespace std;
 #define MIN(x,y) ((x) < (y) ? (x) : (y)) //calculate minimum between two values
 #define MAX(x,y) ((x) > (y) ? (x) : (y)) //calculate maxiumum between two values
 
+using namespace std;
+
 //takes filename as input and returns content as a string
-std::string fileToString(const char* fileName) {
+string fileToString(const char* fileName) {
     ifstream ifs(fileName, ios::in | ios::binary | ios::ate);
 
     size_t fileSize = ifs.tellg();
@@ -23,6 +25,11 @@ std::string fileToString(const char* fileName) {
     return str;
 }
 
+string toLowerCase(string str) {
+    for (int x=0; x < str.length(); x++)
+        str[x] = tolower(str[x]);
+    return str;
+}
 
 int main(int argc, char *argv[]) {
 
@@ -32,8 +39,8 @@ int main(int argc, char *argv[]) {
 
     //read files and dump content to s1 and s2
     try {
-        s1 = fileToString(argv[1]);
-        s2 = fileToString(argv[2]);
+        s1 = toLowerCase(fileToString(argv[1]));
+        s2 = toLowerCase(fileToString(argv[2]));
     } catch(...) {
         cout << "File not found, please retry.\n";
         return 0;
@@ -41,7 +48,7 @@ int main(int argc, char *argv[]) {
 
     //stores the lenght of strings s1 and s2
     l1 = s1.length();
-    l2= s2.length();
+    l2 = s2.length();
 
     std::vector<std::vector<int>> dist(l2+1,std::vector<int>(l1+1,0));
 
