@@ -2,61 +2,45 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
-#include <string.h>
 
 using namespace std;
 #define MIN(x,y) ((x) < (y) ? (x) : (y)) //calculate minimum between two values
 #define MAX(x,y) ((x) > (y) ? (x) : (y)) //calculate maxiumum between two values
 
 //takes filename as input and returns content as a string
-string fileToString(const string &fileName) {
-    ifstream ifs(fileName.c_str(), ios::in | ios::binary | ios::ate);
+std::string fileToString(const char* fileName) {
+    ifstream ifs(fileName, ios::in | ios::binary | ios::ate);
 
-    ifstream::pos_type fileSize = ifs.tellg();
+    size_t fileSize = ifs.tellg();
     ifs.seekg(0, ios::beg);
 
-    vector<char> bytes(fileSize);
-    ifs.read(&bytes[0], fileSize);
-
-    return string(&bytes[0], fileSize);
+    std::vector<char> data;
+    data.reserve(fileSize);
+    ifs.read(data.data(), fileSize);
+    
+    std::string str(data.data());
+    return str;
 }
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 
-    int i,j,l1,l2,t,track;
-
-    string f1 = argv[1], f2 = argv[2], s1 ,s2;
-
-    //read files and dump content to s1 and s2
-    try {
-        s1 = fileToString(f1);
-        s2 = fileToString(f2);
-    } catch(...) {
-        cout << "File not found, please retry.\n";
-        return 0;
-    }
+    std::string file1 = fileToString(argv[1]);
+    std::string file2 = fileToString(argv[2]);
 
     //stores the lenght of strings s1 and s2
-    l1 = s1.length();
-    l2= s2.length();
+    size_t l1 = file1.length();
+    size_t l2 = file2.length();
 
-    int dist[l1+l2][l1+l2];
+    std::vector<std::vector<int>> dist(l2+1,std::vector<int>(l1+1,0));
 
-    //initialize arrays
-    for(i=0;i<=l1;i++) {
-        dist[0][i] = i;
-    }
-    for(j=0;j<=l2;j++) {
-        dist[j][0] = j;
-    }
-
+    int track,t;
     //start looping
-    for (j=1;j<=l1;j++) {
-        for(i=1;i<=l2;i++) {
+    for (int j=1; j<=l1 ; j++) {
+        for(int i=1; i<=l2 ; i++) {
 
             //calculate cost
-            if(s1[i-1] == s2[j-1]) {
+            if(file1[j-1] == file2[i-1]) {
                 track= 0;
             } else {
                 track = 1;
@@ -65,15 +49,15 @@ int main(int argc, char *argv[]) {
             dist[i][j] = MIN(t,(dist[i-1][j-1]+track));
         }
     }
-
+    
     //number of edits required AKA Levenshtein Distance
-    int edits = dist[l2][l1];
+    int edits = dist[l2-1][l1-1];
 
     //percentage from Levenshtein Distance
-    float s_percentage = 100.0 - ((static_cast< float >(edits))/static_cast< float >(MAX(l1,l2)-1))*100;
+    float s_percentage = 100.0 - ((static_cast<float>(edits)) / static_cast<float>(MAX(l1,l2)-1))*100;
     if (s_percentage<0) s_percentage = 0;
 
-    cout << setprecision (2) << fixed << "Similarity is: " << s_percentage << "%\n";
+    cout << setprecision (2) << fixed << "Similarity is: " << s_percentage << "%\n" << std::endl;
 
     return 0;
 }
