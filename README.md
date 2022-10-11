@@ -4,19 +4,14 @@ C++ command line app for calculating the similarity percentage between 2 text fi
 
 ###### I only provide support and builds for Linux
 
-**NOTE**: using big text files will result in segmentation fault, to be fixed...
-
-# Downloading
+# Build instructions
+###### Requires GCC
 ```
-cd ~/Downloads
+git clone https://github.com/50t0r25/TextSimilarityAnalyser.git
 
-wget https://github.com/50t0r25/TextSimilarityAnalyser/releases/download/v1/TSA-v1-linux.tar.gz
+cd TextSimilarityAnalyser/
 
-tar -xzvf TSA-v1-linux.tar.gz
-
-rm TSA-v1-linux.tar.gz
-
-chmod +x TSA
+make TSA
 
 ```
 
@@ -27,13 +22,17 @@ chmod +x TSA
 ```
 Example: `./TSA text1.txt text2.txt`
 
-# Build instructions
-###### Requires GCC
+# Downloading
+Provides slightly better optimized version for testing:
 ```
-git clone https://github.com/50t0r25/TextSimilarityAnalyser.git
+cd ~/Downloads
 
-cd TextSimilarityAnalyser/
+wget https://github.com/50t0r25/TextSimilarityAnalyser/releases/download/v1/TSA-v1-linux.tar.gz
 
-make TSA
+tar -xzvf TSA-v1-linux.tar.gz
+
+rm TSA-v1-linux.tar.gz
+
+chmod +x TSA
 
 ```
