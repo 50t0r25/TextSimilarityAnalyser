@@ -9,16 +9,18 @@ using namespace std;
 #define MAX(x,y) ((x) > (y) ? (x) : (y)) //calculate maxiumum between two values
 
 //takes filename as input and returns content as a string
-string fileToString(const string &fileName) {
-    ifstream ifs(fileName.c_str(), ios::in | ios::binary | ios::ate);
+std::string fileToString(const char* fileName) {
+    ifstream ifs(fileName, ios::in | ios::binary | ios::ate);
 
-    ifstream::pos_type fileSize = ifs.tellg();
+    size_t fileSize = ifs.tellg();
     ifs.seekg(0, ios::beg);
 
-    vector<char> bytes(fileSize);
-    ifs.read(&bytes[0], fileSize);
-
-    return string(&bytes[0], fileSize);
+    std::vector<char> data;
+    data.reserve(fileSize);
+    ifs.read(data.data(), fileSize);
+    
+    std::string str(data.data());
+    return str;
 }
 
 
@@ -26,12 +28,12 @@ int main(int argc, char *argv[]) {
 
     int i,j,l1,l2,t,track;
 
-    string f1 = argv[1], f2 = argv[2], s1 ,s2;
+    string s1 ,s2;
 
     //read files and dump content to s1 and s2
     try {
-        s1 = fileToString(f1);
-        s2 = fileToString(f2);
+        s1 = fileToString(argv[1]);
+        s2 = fileToString(argv[2]);
     } catch(...) {
         cout << "File not found, please retry.\n";
         return 0;
@@ -41,7 +43,7 @@ int main(int argc, char *argv[]) {
     l1 = s1.length();
     l2= s2.length();
 
-    int dist[l1+l2][l1+l2];
+    std::vector<std::vector<int>> dist(l2+1,std::vector<int>(l1+1,0));
 
     //initialize arrays
     for(i=0;i<=l1;i++) {
